@@ -23,11 +23,11 @@ page = st.sidebar.radio("Go to", ["Welcome", "Data Overview", "Exploratory Data 
 
 # Welcome Page
 if page == "Welcome":
-    st.title("Air Pollution Prediction Assessment")
+    st.title("Air Pollution Prediction")
     st.write("""
-    Welcome to the Air Quality Analysis and Prediction App!
+    Welcome to the Air Quality Analysis App!
 
-    Use the sidebar to explore:
+    Use the sidebar to navigate:
     - Data Overview 
     - Exploratory Data Analysis 
     - Model Building and Prediction 
@@ -45,6 +45,12 @@ elif page == "Data Overview":
     st.write("### Checking any missing Values")
     st.write(df.isnull().sum())
 
+    st.write("### Checking the shape of the Dataset")
+    st.write(merged_df.shape)
+
+    st.write("### Listing all columns")
+    st.write(merged_df.columns)
+
 # EDA Page
 elif page == "Exploratory Data Analysis":
     st.title("Exploratory Data Analysis ")
@@ -53,7 +59,7 @@ elif page == "Exploratory Data Analysis":
     st.header("Shape and Size of Data")
     st.write(f"Rows: {df.shape[0]}")
     st.write(f"Columns: {df.shape[1]}")
-
+    
     # Univariate Analysis
     st.header("Univariate Analysis:")
 
@@ -66,6 +72,15 @@ elif page == "Exploratory Data Analysis":
 
     # Bivariate Analysis
     st.header("Bivariate Analysis:")
+
+    col1 = st.selectbox("Select X-axis", df.select_dtypes(include=['float64', 'int64']).columns)
+    col2 = st.selectbox("Select Y-axis", df.select_dtypes(include=['float64', 'int64']).columns)
+    fig, ax = plt.subplots()
+    sns.scatterplot(x=df[col1], y=df[col2], ax=ax)
+    st.pyplot(fig)
+
+    # Pollutants vs conditions
+    st.header("Pollutants vs conditions:")
 
     col1 = st.selectbox("Select X-axis", df.select_dtypes(include=['float64', 'int64']).columns)
     col2 = st.selectbox("Select Y-axis", df.select_dtypes(include=['float64', 'int64']).columns)
@@ -96,6 +111,14 @@ elif page == "Exploratory Data Analysis":
         st.pyplot(fig)
     else:
         st.warning("No time-related column found in the dataset.")
+
+
+# Feature engineering page
+elif page == "Feature engineering page":
+    st.title("Feature engineering page:")
+
+
+
 
 # Model Building Page
 elif page == "Model Building":
