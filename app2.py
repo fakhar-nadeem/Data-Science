@@ -10,7 +10,9 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
 
 # Loading data
-df = pd.read_csv('Transformed_dataset.csv')  
+url = 'https://drive.google.com/file/d/13Fb0d_zRK5oP-3g1MKS1XAxkClsPFsUH/view?usp=drive_link'
+df = pd.read_csv(url)
+#df = pd.read_csv('Transformed_dataset.csv')  
 
 # Setup
 st.set_page_config(page_title="Air Pollution Project", layout="wide")
