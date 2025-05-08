@@ -97,8 +97,8 @@ Pygments==2.19.1
 pymongo==4.12.1
 pyparsing==3.2.3
 pyspark==3.5.4
-python-dateutil==2.9.0.post0
-python-json-logger==3.2.1
+python-dateutil
+python-json-logger
 pytz==2025.2
 pywin32==308
 pywinpty==2.0.15
