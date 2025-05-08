@@ -1,7 +1,7 @@
-echo "streamlit
+streamlit
 pandas
 numpy
 matplotlib
 seaborn
 scikit-learn
-scipy" > requirements.txt
+scipy
