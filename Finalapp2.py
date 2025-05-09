@@ -80,9 +80,6 @@ elif page == "Exploratory Data Analysis":
     # Compute correlation matrix
     corr = merged_df[filtered_cols].corr()
     
-    # Optional: Mask upper triangle for a cleaner look
-    mask = np.triu(np.ones_like(corr, dtype=bool))
-    
     # Plot heatmap
     fig3, ax3 = plt.subplots(figsize=(18, 12))
     sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', mask=mask, ax=ax3, annot_kws={"size": 8})
