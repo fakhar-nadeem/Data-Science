@@ -71,7 +71,7 @@ elif page == "Exploratory Data Analysis":
     st.pyplot(fig2)
 
     st.subheader("Multivariate Analysis")
-   fig3, ax3 = plt.subplots(figsize=(18, 12))  # Increase figure size
+    fig3, ax3 = plt.subplots(figsize=(18, 12))  # Increase figure size
     corr = merged_df[numeric_cols].corr()
     
     # Mask upper triangle for clarity (optional)
