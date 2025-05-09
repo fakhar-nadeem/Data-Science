@@ -71,9 +71,21 @@ elif page == "Exploratory Data Analysis":
     st.pyplot(fig2)
 
     st.subheader("Multivariate Analysis")
-    fig3, ax3 = plt.subplots(figsize=(10, 6))
-    sns.heatmap(merged_df[numeric_cols].corr(), annot=True, cmap='coolwarm', ax=ax3)
-    st.pyplot(fig3)
+    fig3, ax3 = plt.subplots(figsize=(18, 12))  # Increase figure size
+corr = merged_df[numeric_cols].corr()
+
+# Mask upper triangle for clarity (optional)
+mask = np.triu(np.ones_like(corr, dtype=bool))
+
+sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', mask=mask, ax=ax3, annot_kws={"size": 8})
+
+# Improve layout
+plt.xticks(rotation=45, ha='right')
+plt.yticks(rotation=0)
+plt.tight_layout()
+
+st.pyplot(fig3)
+
 
     st.subheader("Time-Series Analysis")
     if 'datetime' in merged_df.columns:
