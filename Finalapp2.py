@@ -74,20 +74,22 @@ elif page == "Exploratory Data Analysis":
 
     # Define the specific columns to include
     selected_cols = ['PM2.5', 'PM10', 'SO2', 'NO2', 'CO', 'O3', 'TEMP', 'PRES', 'DEWP', 'RAIN', 'wd', 'WSPM']
+    
     # Filter numeric columns that are also in the selected list
     filtered_cols = [col for col in selected_cols if col in merged_df.columns and pd.api.types.is_numeric_dtype(merged_df[col])]
     
     # Compute correlation matrix
     corr = merged_df[filtered_cols].corr()
     
-    # Plot heatmap
+    # Plot full square heatmap
     fig3, ax3 = plt.subplots(figsize=(18, 12))
-    sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', mask=mask, ax=ax3, annot_kws={"size": 8})
+    sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', ax=ax3, annot_kws={"size": 8})
     plt.xticks(rotation=45, ha='right')
     plt.yticks(rotation=0)
     plt.tight_layout()
     
     st.pyplot(fig3)
+
 
 
     st.subheader("Time-Series Analysis")
