@@ -71,27 +71,19 @@ elif page == "Exploratory Data Analysis":
     st.pyplot(fig2)
 
     st.subheader("Multivariate Analysis")
-    # Calculate correlation matrix
+   fig3, ax3 = plt.subplots(figsize=(18, 12))  # Increase figure size
     corr = merged_df[numeric_cols].corr()
-    # Optional: Mask upper triangle for cleaner heatmap
+    
+    # Mask upper triangle for clarity (optional)
     mask = np.triu(np.ones_like(corr, dtype=bool))
-    # Create larger figure for readability
-    fig3, ax3 = plt.subplots(figsize=(18, 12))  # Increase size for clarity
-    # Draw heatmap
-    sns.heatmap(
-    corr,
-    annot=True,
-    fmt=".2f",
-    cmap='coolwarm',
-    mask=mask,
-    ax=ax3,
-    annot_kws={"size": 8}  # Smaller font to prevent overlap
-    )
-    # Improve label rotation
+    
+    sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', mask=mask, ax=ax3, annot_kws={"size": 8})
+    
+    # Improve layout
     plt.xticks(rotation=45, ha='right')
     plt.yticks(rotation=0)
     plt.tight_layout()
-    # Display in Streamlit
+    
     st.pyplot(fig3)
 
 
