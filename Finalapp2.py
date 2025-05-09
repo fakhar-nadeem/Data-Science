@@ -71,19 +71,8 @@ elif page == "Exploratory Data Analysis":
     st.pyplot(fig2)
 
     st.subheader("Multivariate Analysis")
-    fig3, ax3 = plt.subplots(figsize=(18, 12))  # Increase figure size
-    corr = merged_df[numeric_cols].corr()
-    
-    # Mask upper triangle for clarity (optional)
-    mask = np.triu(np.ones_like(corr, dtype=bool))
-    
-    sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', mask=mask, ax=ax3, annot_kws={"size": 8})
-    
-    # Improve layout
-    plt.xticks(rotation=45, ha='right')
-    plt.yticks(rotation=0)
-    plt.tight_layout()
-    
+    fig3, ax3 = plt.subplots(figsize=(18, 12))
+    sns.heatmap(merged_df[numeric_cols].corr(), annot=True, cmap='coolwarm', ax=ax3)
     st.pyplot(fig3)
 
 
@@ -98,6 +87,38 @@ elif page == "Exploratory Data Analysis":
         st.pyplot(fig4)
     else:
         st.warning("No datetime column found.")
+
+st.subheader("Derived Feature Analysis: PM Ratio & SO Ratio")
+
+# Ensure datetime is parsed
+if 'datetime' in merged_df.columns:
+    merged_df['datetime'] = pd.to_datetime(merged_df['datetime'], errors='coerce')
+
+    # PM Ratio Calculation and Plot
+    merged_df['PM_ratio'] = merged_df['PM2.5'] / merged_df['PM10']
+    fig5, ax5 = plt.subplots(figsize=(12, 6))
+    ax5.plot(merged_df['datetime'], merged_df['PM_ratio'], label='PM Ratio', color='red')
+    ax5.set_xlabel('Date')
+    ax5.set_ylabel('PM Ratio')
+    ax5.set_title('PM2.5 / PM10 Ratio Over Time')
+    ax5.legend()
+    st.pyplot(fig5)
+    st.caption("High PM2.5/PM10 ratios indicate dominance of fine particulate matter, which is more hazardous (Zhang and Cao, 2015).")
+
+    # SO Ratio Calculation and Plot
+    merged_df['SO_ratio'] = merged_df['SO2'] / merged_df['NO2']
+    fig6, ax6 = plt.subplots(figsize=(12, 6))
+    ax6.plot(merged_df['datetime'], merged_df['SO_ratio'], label='SO Ratio', color='green')
+    ax6.set_xlabel('Date')
+    ax6.set_ylabel('SO Ratio')
+    ax6.set_title('SO2 / NO2 Ratio Over Time')
+    ax6.legend()
+    st.pyplot(fig6)
+    st.caption("SO2/NO2 ratios can indicate pollution source types: vehicle vs industrial (Nirel, 2001).")
+
+else:
+    st.warning("Datetime column is missing or not in proper format.")
+
 
 # Model Building
 elif page == "Model Building":
