@@ -134,7 +134,36 @@ elif page == "Exploratory Data Analysis":
     
     else:
         st.warning("Datetime column is missing or not in proper format.")
-    
+
+        st.subheader("Air Quality Index (AQI) Categorization")
+        
+        # AQI Bins
+        aqi_bins = [0, 50, 100, 150, 200, 300, 500, 9999]
+        aqi_labels = ['1', '2', '3', '4', '5', '6', '7']
+        pollutants = ['PM2.5', 'PM10', 'SO2', 'NO2', 'CO', 'O3']
+        
+        # Dynamically generate AQI levels for selected pollutants
+        for pol in pollutants:
+            label_col = f"{pol}_AQI_level"
+            merged_df[label_col] = pd.cut(merged_df[pol], bins=aqi_bins, labels=aqi_labels)
+            merged_df = merged_df.dropna(subset=[label_col])
+            merged_df[label_col] = merged_df[label_col].astype(int)
+        
+        # Optionally, drop NA from rest of dataset
+        merged_df.dropna(inplace=True)
+        
+        # Let user pick a pollutant to visualize its AQI level over time
+        selected_pol = st.selectbox("Select pollutant to visualize AQI levels", pollutants)
+        label_col = f"{selected_pol}_AQI_level"
+        
+        # Plot AQI level trend
+        fig, ax = plt.subplots(figsize=(12, 6))
+        ax.plot(merged_df['datetime'], merged_df[label_col], label=f'{selected_pol} AQI Level', color='red')
+        ax.set_xlabel("Date")
+        ax.set_ylabel("AQI Level (1=Good, 7=Extreme)")
+        ax.set_title(f"AQI Level Over Time for {selected_pol}")
+        ax.legend()
+        st.pyplot(fig)
 
 # Model Building
 elif page == "Model Building":
