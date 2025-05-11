@@ -78,14 +78,22 @@ elif page == "Exploratory Data Analysis":
     selected_pol = st.selectbox("Select pollutant to visualize AQI levels", pollutants)
     label_col = f"{selected_pol}_AQI_level"
     
-    # Plot AQI level trend
+    # Ensure datetime is parsed
+    merged_df['datetime'] = pd.to_datetime(merged_df['datetime'], errors='coerce')
+    
+    # Extract year and compute yearly average AQI level
+    merged_df['year'] = merged_df['datetime'].dt.year
+    yearly_aqi = merged_df.groupby('year')[label_col].mean().reset_index()
+    
+    # Plot yearly average AQI level
     fig, ax = plt.subplots(figsize=(12, 6))
-    ax.plot(merged_df['datetime'], merged_df[label_col], label=f'{selected_pol} AQI Level', color='red')
-    ax.set_xlabel("Date")
-    ax.set_ylabel("AQI Level (1=Good, 7=Extreme)")
-    ax.set_title(f"AQI Level Over Time for {selected_pol}")
+    ax.plot(yearly_aqi['year'], yearly_aqi[label_col], marker='o', color='red', label=f'{selected_pol} AQI Level (Yearly Avg)')
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Average AQI Level (1=Good, 7=Extreme)")
+    ax.set_title(f"Yearly Average AQI Level for {selected_pol}")
     ax.legend()
     st.pyplot(fig)
+
 
     st.subheader("Univariate Analysis")
     numeric_cols = merged_df.select_dtypes(include=['float64', 'int64']).columns.tolist()
