@@ -59,19 +59,19 @@ elif page == "Exploratory Data Analysis":
     # AQI Categorization Section (moved outside the else block)
     st.subheader("Air Quality Index (AQI) Categorization")
     
-    # AQI Bins
-    aqi_bins = [0, 50, 100, 150, 200, 300, 500, 9999]
-    aqi_labels = ['1', '2', '3', '4', '5', '6', '7']
-    pollutants = ['PM2.5', 'PM10', 'SO2', 'NO2', 'CO', 'O3']
-    
-    # Dynamically generate AQI levels for selected pollutants
+       pollutants = ['PM2.5', 'PM10', 'SO2', 'NO2', 'CO', 'O3']
+
     for pol in pollutants:
+        pol_min = merged_df[pol].min()
+        pol_max = merged_df[pol].max()
+        # Create 7 bins across actual data range
+        bins = np.linspace(pol_min, pol_max, num=8)
         label_col = f"{pol}_AQI_level"
-        merged_df[label_col] = pd.cut(merged_df[pol], bins=aqi_bins, labels=aqi_labels)
+        merged_df[label_col] = pd.cut(merged_df[pol], bins=bins, labels=range(1, 8))
         merged_df = merged_df.dropna(subset=[label_col])
         merged_df[label_col] = merged_df[label_col].astype(int)
     
-    # Optionally, drop NA from rest of dataset
+    # drop NA from rest of dataset
     merged_df.dropna(inplace=True)
     
     # Let user pick a pollutant to visualize its AQI level over time
