@@ -160,11 +160,6 @@ elif page == "Exploratory Data Analysis":
         ax6.legend()
         st.pyplot(fig6)
         st.caption("SO2/NO2 ratios can indicate pollution source types: vehicle vs industrial (Nirel, 2001).")
-    
-else:
-    st.warning("Datetime column is missing or not in proper format.")
-
-    
 
 
 # Model Building
