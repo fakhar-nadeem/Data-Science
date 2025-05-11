@@ -59,7 +59,7 @@ elif page == "Exploratory Data Analysis":
     # AQI Categorization Section (moved outside the else block)
     st.subheader("Air Quality Index (AQI) Categorization")
     
-       pollutants = ['PM2.5', 'PM10', 'SO2', 'NO2', 'CO', 'O3']
+    pollutants = ['PM2.5', 'PM10', 'SO2', 'NO2', 'CO', 'O3']
 
     for pol in pollutants:
         pol_min = merged_df[pol].min()
