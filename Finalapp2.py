@@ -16,7 +16,9 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 # Loading through google drive because csv was too big to upload on github
 import requests
 
-file_id = "13Fb0d_zRK5oP-3g1MKS1XAxkClsPFsUH"
+https://drive.google.com/file/d/14ksne_mUZ_VI_ZMGs4q-6g8X16c2A_ip/view?usp=drive_link
+
+file_id = "14ksne_mUZ_VI_ZMGs4q-6g8X16c2A_ip"
 url = f"https://drive.google.com/uc?export=download&id={file_id}"
 merged_df = pd.read_csv(url)
 
